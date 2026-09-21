@@ -70,7 +70,7 @@ with tab1:
         gs_url = f"https://app.goodstack.io/search?q={gs_query.replace(' ','%20')}"
         st.link_button(f"✅ View '{gs_query}' - Verified on Goodstack", gs_url, use_container_width=True)
     st.link_button("🌍 Browse ALL Kenya Verified Nonprofits", "https://app.goodstack.io/search?country=KE", use_container_width=True)
-    st.link_button("🏢 See Companies Giving via Goodstack", "https://goodstack.io/case-studies", use_container_width=True)
+    st.    st.link_button("🏢 See Companies Giving via Goodstack", "https://goodstack.io", use_container_width=True)
 
 with tab2:
     st.write("If your client IS an NGO/CBO:")
