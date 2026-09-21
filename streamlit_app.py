@@ -56,30 +56,26 @@ for _, row in filtered.head(80).iterrows():
         with c2:
             st.link_button("🔎 Google", f"https://www.google.com/search?q={term}+grants+apply", use_container_width=True)
 
-# --- GOODSTACK VERIFIED SECTION - ADDED, KEEPS 400 LIST ---
+# --- # --- GOODSTACK VERIFIED SECTION - FIXED ---
 st.divider()
-st.header("💚 Goodstack Verified - Trusted Funding")
-st.caption("Verified by Goodstack = trusted by Canva, Atlassian, Monday.com for global payouts")
+st.header("Goodstack Verified - Trusted Funding")
+st.caption("Verified by Goodstack = trusted by Canva, Atlassian, Monday.com")
 
-tab1, tab2 = st.tabs(["🔍 Search Verified Orgs", "📚 For NGO Clients"])
+tab1, tab2 = st.tabs(["Search Verified Orgs", "For NGO Clients"])
 
 with tab1:
     st.info("Give your clients scam-free, verified options")
-    gs_query = st.text_input("Search Goodstack verified", placeholder="Kenya education, farming, youth", key="gs_search")
+    gs_query = st.text_input("Search Goodstack verified", placeholder="Kenya education, farming", key="gs_search")
     if gs_query:
-        gs_url = f"https://app.goodstack.io/search?q={gs_query.replace(' ','%20')}"
-        st.link_button(f"✅ View '{gs_query}' - Verified on Goodstack", gs_url, use_container_width=True)
-    st.link_button("🌍 Browse ALL Kenya Verified Nonprofits", "https://app.goodstack.io/search?country=KE", use_container_width=True)
-    st.    st.link_button("🏢 See Companies Giving via Goodstack", "https://goodstack.io", use_container_width=True)
+        from urllib.parse import quote_plus
+        gs_url = f"https://app.goodstack.io/search?q={quote_plus(gs_query)}"
+        st.link_button(f"View '{gs_query}' on Goodstack", gs_url, use_container_width=True)
+    st.link_button("Browse ALL Kenya Verified Nonprofits", "https://app.goodstack.io/search?country=KE", use_container_width=True)
+    st.link_button("Visit Goodstack.org", "https://goodstack.org", use_container_width=True)
 
 with tab2:
-    st.write("If your client IS an NGO/CBO:")
-    st.markdown("""
-    1. Claim free at **goodstack.org** > For Nonprofits
-    2. Get verified in 2-14 days
-    3. Get donation link: `donate.goodstack.org/your-name`
-    4. Add that link to YOUR app's CSV for others to donate
-    """)
-    st.link_button("➕ Claim Your Client's NGO on Goodstack", "https://goodstack.org/nonprofits", use_container_width=True, type="primary")
-
-st.caption("Your 400 list stays on top. Goodstack section added below for trust.")
+    st.write("If your client IS an NGO:")
+    st.write("1. Claim free at goodstack.org > For Nonprofits")
+    st.write("2. Get verified in 2-14 days")
+    st.write("3. Get donation link")
+    st.link_button("Claim NGO on Goodstack", "https://goodstack.org/nonprofits", use_container_width=True, type="primary")
