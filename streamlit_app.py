@@ -1,62 +1,51 @@
 import streamlit as st
 import pandas as pd
-import random
-from datetime import datetime
-st.set_page_config(page_title="Bright - 400 Global Funders", page_icon="🌍", layout="centered")
+import urllib.parse
+
+st.set_page_config(page_title="Bright - 400 Global Funders", page_icon="🌍", layout="wide")
 st.title("🌍 Bright - 400 Global Funders")
 st.caption("Education | Farmers | Skills | Kenya | Africa | Global")
-st.markdown("---")
-base = [
-["HELB","20K-500K","Student Education","Kenya","Education","helb.co.ke","https://www.helb.co.ke","Open"],
-["Elimu Scholarship","Full Fees","High School","Kenya","Education","ministry","https://www.education.go.ke","Dec 2026"],
-["Wings To Fly","Full Fees","Bright Poor","Kenya","Education","Equity","https://equitygroupfoundation.com","Oct 2026"],
-["KCB Foundation","Full Fees","Student","Kenya","Education","KCB","https://kcbgroup.com/foundation","Nov 2026"],
-["Uwezo Fund","KES 500K","Youth Women PWD","Kenya","Business","Chief Office","https://www.uwezo.go.ke","Rolling"],
-["Youth Fund","100K-2M","Youth 18-35","Kenya","Business","youthfund.go.ke","https://www.youthfund.go.ke","Rolling"],
-["WEF","100K-750K","Women","Kenya","Business","wef.go.ke","https://www.wef.go.ke","Rolling"],
-["Hustler Fund","20K-1M","Chama","Kenya","Business","*254#","https://www.hustlerfund.go.ke","Open"],
-["Tony Elumelu","$5000","Startup","Africa","Business","TEF","https://www.tonyelumelufoundation.org","Mar 2027"],
-["Mastercard Foundation","$10k-100k","Youth Education","Africa","Education","online","https://mastercardfdn.org","Rolling"],
-]
-categories = ["Education","Farmers","Tech","Health","Business","Women","Youth","Skills","Climate","Arts"]
-regions = ["Kenya","Africa","Global"]
-extra = [["Google.org","$50k","Tech","Global"],["USAID","$100k","Farmers Youth","Africa"],["UNICEF","$20k","Education Health","Global"],["FAO","$30k","Farmers","Africa"]]
-all_data = base.copy()
-while len(all_data) < 400:
-    f = random.choice(extra)
-    cat = random.choice(categories)
-    reg = random.choice(regions)
-    name = f"{f[0]} - {cat} #{len(all_data)+1}"
-    all_data.append([name, f[1], f[2], reg, cat, "Online", f"https://www.google.com/search?q={name}", "Rolling"])
-df = pd.DataFrame(all_data, columns=["Funder","Amount","Who","Region","Category","How","Link","Deadline"])
-search = st.text_input("🔍 Search 400 funders", placeholder="teacher, farmer, nursing, tech")
-c1,c2 = st.columns(2)
-with c1:
-    rf = st.selectbox("🌍 Region", ["All","Kenya","Africa","Global"])
-with c2:
-    cf = st.selectbox("📚 Category", ["All"]+categories)
-filtered = df
-if search:
-    filtered = filtered[filtered.apply(lambda r: search.lower() in str(r).lower(), axis=1)]
-if rf!= "All":
-    filtered = filtered[filtered["Region"]==rf]
-if cf!= "All":
-    filtered = filtered[filtered["Category"]==cf]
-st.success(f"✅ Found {len(filtered)} funders | Total 400")
-if "favs" not in st.session_state:
-    st.session_state.favs = []
-for _, row in filtered.head(50).iterrows():
-    with st.container(border=True):
-        st.markdown(f"**{row['Funder']}** | {row['Amount']}")
-        st.caption(f"{row['Who']} | {row['Region']} | {row['Category']} | ⏰ {row['Deadline']}")
-        a,b,c = st.columns(3)
-        with a:
-            st.link_button("Apply", row["Link"], use_container_width=True)
-        with b:
-            gs = f"https://www.goodstack.org/search?q={row['Funder'].split(' - ')[0]}"
-            st.link_button("Goodstack", gs, use_container_width=True)
-        with c:
-            if st.button("⭐", key=row['Funder']):
-                st.session_state.favs.append(row['Funder'])
-                st.toast("Saved")
-st.caption(f"Updated: {datetime.now().strftime('%b %d, %Y')} | Nairobi")
+
+# Load your CSV
+@st.cache_data
+def load_data():
+    try:
+        df = pd.read_csv("funders.csv")
+    except:
+        df = pd.read_csv("funders_400.csv")
+    return df
+
+df = load_data()
+
+# Search
+query = st.text_input("🔍 Search 400 funders", placeholder="teacher, farmer, nursing, tech").lower()
+region = st.selectbox("🌍 Region", ["All", "Kenya", "Africa", "Global"])
+category = st.selectbox("📚 Category", ["All"] + sorted(df['Category'].dropna().unique().tolist()) if 'Category' in df else ["All"])
+
+filtered = df.copy()
+if query:
+    filtered = filtered[filtered.apply(lambda r: query in str(r).lower(), axis=1)]
+if region!= "All" and 'Region' in filtered.columns:
+    filtered = filtered[filtered['Region'].str.contains(region, na=False)]
+if category!= "All" and 'Category' in filtered.columns:
+    filtered = filtered[filtered['Category'] == category]
+
+st.success(f"✅ Found {len(filtered)} funders | Total {len(df)}")
+
+for i, row in filtered.head(50).iterrows():
+    with st.expander(f"{row['Funder']}"):
+        st.write(f"**Category:** {row.get('Category','N/A')} | **Region:** {row.get('Region','N/A')}")
+        if 'Description' in row:
+            st.write(row['Description'])
+
+        c1, c2, c3 = st.columns(3)
+        search_term = urllib.parse.quote_plus(row['Funder'].split(' - ')[0])
+        google_link = f"https://www.google.com/search?q={search_term}+grants+apply"
+
+        with c1:
+            if 'Link' in row and pd.notna(row['Link']):
+                st.link_button("✅ Apply", row['Link'], use_container_width=True)
+        with c2:
+            st.link_button("🔎 Google", google_link, use_container_width=True)
+        with c3:
+            st.button("⭐ Save", key=f"save_{i}", use_container_width=True)
