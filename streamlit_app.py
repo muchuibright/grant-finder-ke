@@ -19,8 +19,11 @@ msg1 = urllib.parse.quote("Hi Bright, I found a funder on your app. Help me appl
 msg2 = urllib.parse.quote("Hi Bright, I want full 400 funders PDF for 1000")
 
 c1, c2 = st.columns(2)
-c1.link_button("💬 WhatsApp: Help Apply (500 KES)", f"https://wa.me/{MY_WHATSAPP}?text={msg1}")
-c2.link_button("📥 Get Full PDF (1000 KES)", f"https://wa.me/{MY_WHATSAPP}?text={msg2}")
+col1, col2 = st.columns(2)
+with col1:
+    st.link_button("💬 Get Help Applying - $10", "https://wa.me/254111975744?text=Hi%20Bright,%20I%20need%20help%20applying%20for%20grants", use_container_width=True)
+with col2:
+    st.link_button("📄 Get Full PDF List - $20", "https://www.paypal.com/paypalme/YOURNAME/20", use_container_width=True)
 
 st.divider()
 
