@@ -5,7 +5,7 @@ import urllib.parse
 
 st.markdown("""
 ### 🌍 Bright - 400 Global Funders Platform
-**Upwork Verified Grant Researcher | 200+ Active Funding Opportunities for SMEs, NGOs, Education & Startups Worldwide**
+**Experienced Grant Researcher | 200+ Active Funding Opportunities for SMEs, NGOs, Education & Startups Worldwide**
 """)
 
 st.divider()
