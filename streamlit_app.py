@@ -3,13 +3,12 @@ import pandas as pd
 import random
 import urllib.parse
 
-st.set_page_config(page_title="Bright - 400 Global Funders", layout="wide")
-st.markdown("""
-### 🇰🇪 Grant Finder KE - Built by Bright
 st.markdown("""
 ### 🌍 Bright - 400 Global Funders Platform
 **Upwork Verified Grant Researcher | 200+ Active Funding Opportunities for SMEs, NGOs, Education & Startups Worldwide**
 """)
+st.divider()
+st.title("🌍 Bright - 400 Global Funders")
 st.divider()
 """)
 st.divider()
