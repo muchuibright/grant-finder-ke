@@ -4,6 +4,12 @@ import random
 import urllib.parse
 
 st.set_page_config(page_title="Bright - 400 Global Funders", layout="wide")
+st.markdown("""
+### 🇰🇪 Grant Finder KE - Built by Bright
+**Upwork Grant Researcher | 200+ verified grants for Kenyan SMEs, Youth & Women**
+🔗 [Live Demo Portfolio](https://grant-finder-ke.streamlit.app)
+""")
+st.divider()
 st.title("🌍 Bright - 400 Global Funders")
 st.caption("Education | Farmers | Skills | Kenya | Africa | Global")
 
