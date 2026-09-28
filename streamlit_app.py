@@ -7,16 +7,12 @@ st.markdown("""
 ### 🌍 Bright - 400 Global Funders Platform
 **Upwork Verified Grant Researcher | 200+ Active Funding Opportunities for SMEs, NGOs, Education & Startups Worldwide**
 """)
+
 st.divider()
 st.title("🌍 Bright - 400 Global Funders")
-st.divider()
-""")
-st.divider()
-st.title("🌍 Bright - 400 Global Funders")
-st.caption("Education | Farmers | Skills | Kenya | Africa | Global")
+st.caption("Education | Farmers | Skills | Youth | SMEs | NGOs")
 
 MY_WHATSAPP = "254111975744"
-
 msg1 = urllib.parse.quote("Hi Bright, I found a funder on your app. Help me apply. I will pay 500.")
 msg2 = urllib.parse.quote("Hi Bright, I want full 400 funders PDF for 1000")
 
